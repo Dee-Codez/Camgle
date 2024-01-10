@@ -1,0 +1,26 @@
+[1mdiff --cc README.md[m
+[1mindex 7bce4b6,841e5c2..0000000[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@@ -1,16 -1,2 +1,21 @@@[m
+[32m++<<<<<<< HEAD[m
+[32m +# camgle[m
+[32m +[m
+[32m +A fresh camera oriented take on search engines[m
+[32m +[m
+[32m +## Getting Started[m
+[32m +[m
+[32m +This project is a starting point for a Flutter application.[m
+[32m +[m
+[32m +A few resources to get you started if this is your first Flutter project:[m
+[32m +[m
+[32m +- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)[m
+[32m +- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)[m
+[32m +[m
+[32m +For help getting started with Flutter development, view the[m
+[32m +[online documentation](https://docs.flutter.dev/), which offers tutorials,[m
+[32m +samples, guidance on mobile development, and a full API reference.[m
+[32m++=======[m
+[32m+ # Camgle[m
+[32m+ A Camera Oriented Approach to Search Engines[m
+[32m++>>>>>>> 70e946ce4176d2e4b33f85f10a37cef4cef7482d[m
