@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
@@ -26,6 +27,13 @@ class ScanController extends GetxController {
   var isCameraInit = false.obs;
   var cameraCount = 0;
 
+  var x = 0.0;
+  var y = 0.0;
+  var h = 0.0;
+  var w = 0.0;
+  var label = "";
+  var conf = 0;
+
   initCamera() async{
     if(await Permission.camera.request().isGranted){
       cameras = await availableCameras();
@@ -36,8 +44,7 @@ class ScanController extends GetxController {
       await cameraController.initialize().then((value){
           cameraController.startImageStream((image) {
             cameraCount++ ;
-            if(cameraCount%10==0){
-              cameraCount = 0;
+            if(cameraCount%10==0){cameraCount = 0;
               objectDetector(image);
             }
             update();
@@ -52,8 +59,8 @@ class ScanController extends GetxController {
 
   initTFLite() async{
     await Tflite.loadModel(
-      model: "assets/model.tflite",
-      labels: "assets/label.txt",
+      model: "assets/model_ssd.tflite",
+      labels: "assets/label_ssd.txt",
       isAsset: true,
       numThreads: 1,
       useGpuDelegate: false,
@@ -62,23 +69,32 @@ class ScanController extends GetxController {
 
 
   objectDetector(CameraImage image) async{
-    var detector = await Tflite.runModelOnFrame(bytesList: image.planes.map((e){
-      return e.bytes;
-    }).toList(),
+    var detector = await Tflite.detectObjectOnFrame(
+      bytesList: image.planes.map((plane) {return plane.bytes;}).toList(),// required
       asynch: true,
+      model: "SSDMobileNet",
       imageHeight: image.height,
       imageWidth: image.width,
       imageMean: 127.5,
       imageStd: 127.5,
-      numResults: 1,
+      numResultsPerClass: 1,
       rotation: 90,
       threshold: 0.4,
     );
+
     if(detector != null){
-      log("Result is $detector");
+      var detectedObj = detector.first;
+      log("Result is $detectedObj");
+      if(detectedObj["confidenceInClass"]*100 > 30){
+        label = detectedObj["detectedClass"].toString();
+        h = detectedObj["rect"]["h"];
+        w = detectedObj["rect"]["w"];
+        x = detectedObj["rect"]["x"];
+        y = detectedObj["rect"]["y"];
+      }
+      update();
     }
   }
-
 }
 
 
