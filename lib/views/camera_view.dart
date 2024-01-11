@@ -23,7 +23,7 @@ class CameraView extends StatelessWidget {
                     child: Container(
                       width: controller.w*context.width,
                       height: controller.h*context.height,
-                      padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+                      padding: const EdgeInsets.only(top: 2.0, left: 2.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.blue, width: 3.5),
                         borderRadius: BorderRadius.circular(8)
@@ -33,7 +33,7 @@ class CameraView extends StatelessWidget {
                         children: [
                           Container(
                             color: Colors.white,
-                            child: Text("${controller.conf*100}% - ${controller.label}"),
+                            child: Text("${controller.nconf}% - ${controller.label}"),
                           ),
                         ],
                       ),
